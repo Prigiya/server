@@ -147,6 +147,10 @@ class PostController extends Controller
             $likedata->user_id=  $request->userid_like;
             $likedata->post_id = $request->likeid;
             if($likedata->save()){
+                $dislikedata = Dislike::where('post_id',$request->likeid)->first();
+                if(($dislikedata["dislikes"]) == "1"){
+                        $disliked = Dislike::where('post_id',$request->likeid)->delete();
+                }
                 return response()->json(['status'=>'success', 'message'=>'Liked successfully']);
             }
         } catch (\Exception $e){
@@ -157,12 +161,17 @@ class PostController extends Controller
     public function disLikepost(Request $request)
     {
         try{
+           
             $dislikedata = new Dislike();
             $dislikedata->dislikes = $request->dislikedata_dis;
             $dislikedata->user_id=  $request->userid_dislike;
             $dislikedata->post_id = $request->dislikeid;
             if($dislikedata->save()){
-                return response()->json(['status'=>'success', 'message'=>'Liked successfully']);
+                $likedata = Likepost::where('post_id',$request->dislikeid)->first();
+                if(($likedata["likes"]) == "1"){
+                        $liked = Likepost::where('post_id',$request->dislikeid)->delete();
+                }
+                return response()->json(['status'=>'success', 'message'=>'DisLiked successfully']);
             }
         } catch (\Exception $e){
             return response()->json(['status'=>'failure', 'message'=> $e->getMessage()]);
