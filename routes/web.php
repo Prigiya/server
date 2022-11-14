@@ -39,6 +39,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('/post', 'PostController@store');
         $router->post('/comment', 'PostController@commentpost');
         $router->get('/commentdata/{postid}', 'PostController@commentdata');
+        $router->get('/likedata/{postid}', 'PostController@likedata');
+        $router->get('/dislikedata/{postid}', 'PostController@dislikedata');
         $router->get('/commentdataall', 'PostController@commentdataall');
         $router->post('/like', 'PostController@likepost');
         $router->post('/dislike', 'PostController@dislikepost');

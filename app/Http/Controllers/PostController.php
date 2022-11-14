@@ -134,12 +134,46 @@ class PostController extends Controller
         
     }
 
+    public function likedata($postid){
+        // return Comment::where('post_id',$postid)->get();
+        $likedatas = Likepost::with(['user'])->where('post_id',$postid)->get();
+        $response = [];
+        foreach ($likedatas as $index => $likedata) {
+            $response[] = [
+                'likedata' => $likedata->likes,
+                'likeId' => $likedata->id,
+                'createdat' =>$likedata->created_at,
+                'user'=>$likedata->user->name
+            ];
+        }
+
+        return $response;      
+        
+    }
+
+    public function dislikedata($postid){
+        // return Comment::where('post_id',$postid)->get();
+        $dislikedatas = Dislike::with(['user'])->where('post_id',$postid)->get();
+        $response = [];
+        foreach ($dislikedatas as $index => $dislikedata) {
+            $response[] = [
+                'dislikedata' => $dislikedata->dislikes,
+                'dislikeId' => $dislikedata->id,
+                'createdat' =>$dislikedata->created_at,
+                'user'=>$dislikedata->user->name
+            ];
+        }
+
+        return $response;      
+        
+    }
+
     public function commentdataall(){
         
         return Comment::count();
     }
 
-    public function Likepost(Request $request)
+     public function Likepost(Request $request)
     {
         try{
             $likedata = new Likepost();
