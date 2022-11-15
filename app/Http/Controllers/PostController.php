@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     
     public function index(){
-        $posts = Post::withCount(['comments','likeposts','dislikes'])->orderBy('post_id','desc')->orderBy('id','desc')->get();
+        $posts = Post::withCount(['comments','likeposts','dislikes'])->orderBy('id','desc')->get();
 
         $response = [];
         foreach ($posts as $index => $post) {
@@ -31,6 +31,7 @@ class PostController extends Controller
     }
 
     public function userpost($userid){
+        // dd($userid);
         $posts = Post::withCount(['comments','likeposts','dislikes'])->where('user_id', $userid)->orderBy('id','desc')->get();
 
         $response = [];
